@@ -1,0 +1,13 @@
+service: default
+runtime: php55
+api_version: 1
+
+handlers:
+- url: /img
+  static_dir: img
+- url: /
+  static_files: static/index.html
+  upload: static/index.html
+- url: /.*
+  static_files: static_files
+  upload: static

@@ -1,0 +1,73 @@
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>GeoAppLP</title>
+  </head>
+
+<body>
+  <form>
+    <input type="button" style="font-size:60px" name="link" value="Open App" onclick="jumpToAppOnClick()">
+  </form>
+
+  <a href="#" id="image" onclick="jumpToAppOnLoad()"><img src="../img/tranceparent.png"/></a>
+
+  <script type="text/javascript">
+    // Below, please change to an arbitrary domain and parameter.
+    DOMAIN_AND_PARAMERTER = "hoge?exurl=https://hoge.hoge/index.html";
+
+    GEO_APP_URL_SCHEME = "hoge.hoge"
+    URL_SCHEME = "hoge.hoge://" + DOMAIN_AND_PARAMERTER;
+    ANDROID_URL_SCHEME = "intent://" + DOMAIN_AND_PARAMERTER + "#Intent;scheme=" + GEO_APP_URL_SCHEME + ";package=jp.co.geoonline.app;end";
+    IOS_STORE_URL = "https://itunes.apple.com/jp/app/hogehoge/id123456?mt=8";
+    USER_AGENT = navigator.userAgent.toLowerCase();
+
+    window.onload = function(){
+      if (androidVersion() >= 5) {
+        document.getElementById('image').click();
+      } else if (androidVersion()) {
+        fireAndroid();
+      } else {
+        document.getElementById('image').click();
+      }
+    }
+
+    function jumpToAppOnLoad(){
+        if (USER_AGENT.indexOf("android") > -1) {
+          fireAndroid();
+        } else if (USER_AGENT.search(/iphone|ipad|ipod/) > -1) {
+          fireIOS();
+        }
+    }
+
+    function jumpToAppOnClick(){
+        if (USER_AGENT.indexOf("android") > -1) {
+          fireAndroid();
+        } else if (USER_AGENT.search(/iphone|ipad|ipod/) > -1) {
+          fireAppStore();
+        }
+    }
+
+    function fireAndroid() {
+      location.href= ANDROID_URL_SCHEME;
+    }
+
+    function fireIOS() {
+      location.href= URL_SCHEME;
+    }
+
+    function fireAppStore() {
+      location.href= IOS_STORE_URL;
+    }
+
+    function androidVersion() {
+      var ua = navigator.userAgent;
+      if( ua.indexOf("Android") > 0 )
+        {
+          var version = parseFloat(ua.slice(ua.indexOf("Android")+8));
+          return version;
+        }
+    }
+
+  </script>
+</body>
+</html>
